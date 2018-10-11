@@ -1,24 +1,20 @@
 <template>
   <div class="col-full">
     <h1>Welcome to the Forum</h1>
-    <ForumList :forums="forums"/>
+    <CategoryList :categories="categories"/>
   </div>
 </template>
 
 <script>
-import {forums, posts, users} from '@/data';
-import ForumList from '@/components/ForumList';
+import CategoryList from '@/components/CategoryList';
 
 export default {
   components: {
-    ForumList
+    CategoryList
   },
-
-  data () {
-    return {
-      forums: Object.values(forums),
-      posts,
-      users
+  computed: {
+    categories() {
+      return Object.values(this.$store.state.categories)
     }
   }
 }

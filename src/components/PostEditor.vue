@@ -33,6 +33,7 @@ export default {
   methods: {
     save() {
       const postId = "greatPost" + Math.random();
+      
       const post = {
         text: this.text,
         publishedAt: Math.floor(Date.now() / 1000),
@@ -40,8 +41,8 @@ export default {
         userId: "jUjmgCurRRdzayqbRMO7aTG9X1G2",
         ".key": postId
       };
-      this.text = "";
 
+      this.text = "";
       this.$emit("save", { post });
     }
   }

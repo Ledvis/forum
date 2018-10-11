@@ -4,6 +4,7 @@ import Home from '@/views/HomeView'
 import ThreadShow from '@/views/ThreadShowView'
 import NotFound from '@/views/NotFoundView'
 import ForumView from '@/views/ForumView'
+import CategoryView from '@/views/CategoryView'
 
 Vue.use(Router)
 
@@ -23,6 +24,12 @@ export default new Router({
     path: '/forum/:id',
     name: 'ForumView',
     component: ForumView,
+    props: true
+  },
+  {
+    path: '/category/:id',
+    name: 'CategoryView',
+    component: CategoryView,
     props: true
   },
   {
