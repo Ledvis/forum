@@ -5,6 +5,7 @@ import ThreadShow from '@/views/ThreadShowView'
 import NotFound from '@/views/NotFoundView'
 import ForumView from '@/views/ForumView'
 import CategoryView from '@/views/CategoryView'
+import ProfileView from '@/views/ProfileView'
 
 Vue.use(Router)
 
@@ -31,6 +32,19 @@ export default new Router({
     name: 'CategoryView',
     component: CategoryView,
     props: true
+  },
+  {
+    path: '/me',
+    name: 'ProfileView',
+    component: ProfileView
+  },
+  {
+    path: '/me/edit',
+    name: 'ProfileEdit',
+    component: ProfileView,
+    props: {
+      edit: true
+    }
   },
   {
     path: '*',

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {countObjProperties} from '@/utils/index';
 import BaseDate from './BaseDate.vue';
 
 export default {
@@ -40,7 +41,8 @@ export default {
   },
   computed: {
     repliesCount () {
-      return Object.keys(this.thread.posts).length - 1
+      return countObjProperties(this.thread.posts) - 1
+      
     },
     user () {
       return this.$store.state.users[this.thread.userId]

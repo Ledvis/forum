@@ -22,6 +22,7 @@
 
 <script>
 import Vue from 'vue';
+import {countObjProperties} from '@/utils/index';
 import BaseDate from './BaseDate.vue';
 
 Vue.component('BaseDate', BaseDate);
@@ -38,7 +39,7 @@ export default {
       return this.$store.state.users[this.post.userId];
     },
     userPostsCount() {
-      return Object.keys(this.user.posts).length;
+      return countObjProperties(this.user.posts);
     }
   },
 };

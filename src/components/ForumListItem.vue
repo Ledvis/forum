@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import {countObjProperties} from '@/utils/index';
+
 export default {
   name: 'ForumListItem',
   props: {
@@ -28,7 +30,7 @@ export default {
   },
   computed: {
     threadsCount() {
-      return this.forum.threads ? Object.values(this.forum.threads).length : 0
+      return countObjProperties(this.forum.threads);
     }
   }
 }

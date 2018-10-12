@@ -5,7 +5,10 @@ import data from '@/data'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: data,
+  state: {
+    ...data,
+    authUser: 'FsCDAk9w8NeXEceLV87arpsXjnQ2'
+  },
   mutations: {
     SET_POST (state, {
       post,
@@ -26,14 +29,23 @@ export default new Vuex.Store({
     }) {
       const user = state.users[userId]
       Vue.set(user.posts, postId, postId)
+    },
+    SET_USER (state, {
+      user,
+      userId
+    }) {
+      Vue.set(state.users, userId, user)
     }
   },
   actions: {
     createPost ({
-      commit
+      commit,
+      state
     }, post) {
       const postId = 'post' + Math.random()
       post['.key'] = postId
+      post.publishedAt = Math.floor(Date.now() / 1000)
+      post.userId = state.authUser
 
       commit('SET_POST', {
         post,
@@ -49,6 +61,22 @@ export default new Vuex.Store({
         postId,
         userId: post.userId
       })
+    },
+    updateUser ({
+      commit
+    }, user) {
+      console.log(user)
+      commit('SET_USER', {
+        user,
+        userId: user['.key']
+      })
     }
+  },
+  getters: {
+    authUser (state) {
+      return state.users[state.authUser]
+    },
+    userPosts: state => userId => Object.values(state.posts).filter(post => post.userId === userId),
+    thread: state => threadId => state.threads[threadId]
   }
 })
