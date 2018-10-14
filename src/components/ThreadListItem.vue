@@ -30,7 +30,6 @@
 
 <script>
 import {countObjProperties} from '@/utils/index';
-import BaseDate from './BaseDate.vue';
 
 export default {
   props: {

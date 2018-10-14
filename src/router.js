@@ -6,6 +6,8 @@ import NotFound from '@/views/NotFoundView'
 import ForumView from '@/views/ForumView'
 import CategoryView from '@/views/CategoryView'
 import ProfileView from '@/views/ProfileView'
+import CreateThreadView from '@/views/CreateThreadView'
+import EditThreadView from '@/views/EditThreadView'
 
 Vue.use(Router)
 
@@ -16,9 +18,9 @@ export default new Router({
     component: Home
   },
   {
-    path: '/thread/:id',
-    name: 'ThreadShow',
-    component: ThreadShow,
+    path: '/category/:id',
+    name: 'CategoryView',
+    component: CategoryView,
     props: true
   },
   {
@@ -28,9 +30,21 @@ export default new Router({
     props: true
   },
   {
-    path: '/category/:id',
-    name: 'CategoryView',
-    component: CategoryView,
+    path: '/thread/create/:forumId',
+    name: 'CreateThreadView',
+    component: CreateThreadView,
+    props: true
+  },
+  {
+    path: '/thread/:id',
+    name: 'ThreadShow',
+    component: ThreadShow,
+    props: true
+  },
+  {
+    path: '/thread/:id/edit',
+    name: 'EditThreadView',
+    component: EditThreadView,
     props: true
   },
   {

@@ -48,14 +48,6 @@ export default {
       required: true,
       type: Object
     },
-    userPostsCount: {
-      required: true,
-      type: Number
-    },
-    userThreadsCount: {
-      required: true,
-      type: Number
-    }
   },
   data() {
     return {
@@ -70,6 +62,14 @@ export default {
       this.$store.dispatch('updateUser', {...this.activeUser})
       this.$router.push({name: 'ProfileView'})
     }
+  },
+  computed: {
+    userPostsCount() {
+      return this.$store.getters.userPostsCount(this.user['.key'])
+    },
+    userThreadsCount() {
+      return this.$store.getters.userThreadsCount(this.user['.key'])
+    },
   }
 }
 </script>

@@ -11,21 +11,30 @@
     </div>
 
     <div class="post-content">
-      <div>
-        {{post.text}}
+      <template v-if="!editing">
+        <div>
+          {{post.text}}
+        </div>
+        <a @click.prevent="editing = true" href="#" style="margin-left: auto;" class="link-unstyled" title="Make a change"><i class="fa fa-pencil"></i></a>
+      </template>
+      <div v-else>
+        <PostEditor 
+          :post="post"
+          @save="editing = false"
+          @cancel="editing = false"
+        />
       </div>
     </div>
-
+    
+    <div v-if="post.edited">edited</div>
     <BaseDate :timestamp="post.publishedAt"/>
+  
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import {countObjProperties} from '@/utils/index';
-import BaseDate from './BaseDate.vue';
-
-Vue.component('BaseDate', BaseDate);
+import PostEditor from './PostEditor';
 
 export default {
   props: {
@@ -34,13 +43,21 @@ export default {
       type: Object
     }
   },
+  data() {
+    return {
+      editing: false
+    }
+  },
   computed: {
     user() {
       return this.$store.state.users[this.post.userId];
     },
     userPostsCount() {
-      return countObjProperties(this.user.posts);
-    }
+      return this.$store.getters.userPostsCount(this.user['.key'])
+    },
+  },
+  components: {
+    PostEditor
   },
 };
 </script>
