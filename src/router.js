@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/HomeView'
-import ThreadShow from '@/views/ThreadShowView'
+import ThreadShowView from '@/views/ThreadShowView'
 import NotFound from '@/views/NotFoundView'
 import ForumView from '@/views/ForumView'
 import CategoryView from '@/views/CategoryView'
@@ -37,8 +37,8 @@ export default new Router({
   },
   {
     path: '/thread/:id',
-    name: 'ThreadShow',
-    component: ThreadShow,
+    name: 'ThreadShowView',
+    component: ThreadShowView,
     props: true
   },
   {

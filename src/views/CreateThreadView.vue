@@ -30,7 +30,7 @@
           forumId: this.forum['.key'],
           title,
           text,
-        }).then(threadId => this.$router.push({name: 'ThreadShow', params: {id: threadId}}))
+        }).then(threadId => this.$router.push({name: 'ThreadShowView', params: {id: threadId}}))
       },
       cancel () {
         this.$router.push({name: 'ForumView', params: {id: this.forumId}})

@@ -2,7 +2,7 @@
   <div class="thread">
     <div>
       <p>
-        <router-link :to="{name: 'ThreadShow', params: {id: thread['.key']}}">
+        <router-link :to="{name: 'ThreadShowView', params: {id: thread['.key']}}">
           {{thread.title}}
         </router-link>
       </p>
@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import {countObjProperties} from '@/utils/index';
-
 export default {
   props: {
     thread: {
@@ -40,8 +38,7 @@ export default {
   },
   computed: {
     repliesCount () {
-      return countObjProperties(this.thread.posts) - 1
-      
+      return this.$store.getters.threadRepliesCount(this.thread['.key'])
     },
     user () {
       return this.$store.state.users[this.thread.userId]

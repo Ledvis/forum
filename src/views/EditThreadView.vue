@@ -38,10 +38,10 @@ export default {
         title,
         text,
         id: this.id
-      }).then(this.$router.push({name: 'ThreadShow', params: {id: this.id}}))
+      }).then(this.$router.push({name: 'ThreadShowView', params: {id: this.id}}))
     },
     cancel() {
-      this.$router.push({name: 'ThreadShow', params: {id: this.id}})
+      this.$router.push({name: 'ThreadShowView', params: {id: this.id}})
     }
   }
 }
