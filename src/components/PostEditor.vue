@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "PostEditor",
   props: {
@@ -51,6 +53,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["createPost", "updatePost"]),
+
     save() {
       this.persist();
     },
@@ -63,13 +67,13 @@ export default {
         threadId: this.threadId
       };
 
-      this.$store.dispatch("createPost", post).then(() => this.$emit("save"));
+      this.createPost(post).then(() => this.$emit("save"));
       this.text = "";
     },
     update() {
-      this.$store
-        .dispatch("updatePost", { ...this.post, text: this.text })
-        .then(() => this.$emit("save"));
+      this.updatePost({ ...this.post, text: this.text }).then(() =>
+        this.$emit("save")
+      );
     },
     cancel() {
       this.$emit("cancel");

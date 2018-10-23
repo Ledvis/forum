@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "UserProfileEdit",
   data() {
@@ -58,8 +60,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["updateUser"]),
+
     save() {
-      this.$store.dispatch("updateUser", this.activeUser);
+      this.updateUser(this.activeUser);
       this.$router.push({ name: "UserProfileView" });
     },
     cancel() {

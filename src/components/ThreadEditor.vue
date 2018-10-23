@@ -7,10 +7,10 @@
       <textarea id="thread_content" name="content" rows="8" cols="140" class="form-input" v-model="form.text"></textarea>
     </div>
     <div class="btn-group">
-      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-ghost" @click="cancel">Cancel</button>
       <button type="submit" name="Publish" class="btn btn-blue">Publish</button>
     </div>
-  </form>  
+  </form>
 </template>
 
 <script>
@@ -37,6 +37,10 @@ export default {
   methods: {
     save() {
       this.$emit("save", { ...this.form });
+    },
+
+    cancel() {
+      this.$emit("cancel");
     }
   }
 };
