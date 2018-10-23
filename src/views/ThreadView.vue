@@ -3,10 +3,9 @@
     <h1>{{ thread.title }}</h1>
     <router-link :to="{name: 'EditThreadView', params: {threadId: thread.id}}" class="btn-green btn-small">Edit Thread</router-link>
     <p>
-      By <a href="#" class="link-unstyled">Robin</a>, <span title="October 5th 2017, 4:32:55 pm" class="post-date">
-        <BaseDate :timestamp="thread.publishedAt"/>
-      </span>.
-      <span class="hide-mobile text-faded text-small" style="float: right; margin-top: 2px;">3 replies by 3 contributors</span>
+      By <a href="#" class="link-unstyled">{{ user.name }}</a>, 
+      <BaseDate :timestamp="thread.publishedAt"/>.
+      <span class="hide-mobile text-faded text-small" style="float: right; margin-top: 2px;">{{ repliesCount }} {{ repliesCount === 1 ? 'reply' : 'replies' }} by {{ contributorsCount }} {{ contributorsCount === 1 ? 'contributor' : 'contributors' }}</span>
     </p>
     <PostList :posts="posts"/>
     <PostEditor :threadId="thread['.key']"/>
@@ -33,6 +32,22 @@ export default {
       return Object.values(this.$store.state.posts).filter(post =>
         Object.keys(this.thread.posts).includes(post[".key"])
       );
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    repliesCount() {
+      return Object.keys(this.thread.posts).length - 1;
+    },
+    contributorsCount() {
+      const replies = Object.keys(this.thread.posts)
+        .filter(postId => postId !== this.thread.firstPostId)
+        .map(postId => this.$store.state.posts[postId]);
+
+      const userIds = replies.map(post => post.userId);
+
+      return userIds.filter((id, index) => index === userIds.indexOf(id))
+        .length;
     }
   },
   components: {
