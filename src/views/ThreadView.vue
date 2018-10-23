@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import PostList from "@/components/PostList";
 import PostEditor from "@/components/PostEditor";
 
@@ -33,9 +34,9 @@ export default {
         Object.keys(this.thread.posts).includes(post[".key"])
       );
     },
-    user() {
-      return this.$store.getters.user;
-    },
+    ...mapGetters({
+      user: "authUser"
+    }),
     repliesCount() {
       return Object.keys(this.thread.posts).length - 1;
     },

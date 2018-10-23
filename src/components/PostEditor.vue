@@ -56,7 +56,7 @@ export default {
     ...mapActions(["createPost", "updatePost"]),
 
     save() {
-      this.persist();
+      this.persist().then(() => this.$emit("save"));
     },
     persist() {
       return this.isUpdating ? this.update() : this.create();
@@ -67,13 +67,11 @@ export default {
         threadId: this.threadId
       };
 
-      this.createPost(post).then(() => this.$emit("save"));
       this.text = "";
+      return this.createPost(post);
     },
     update() {
-      this.updatePost({ ...this.post, text: this.text }).then(() =>
-        this.$emit("save")
-      );
+      return this.updatePost({ ...this.post, text: this.text });
     },
     cancel() {
       this.$emit("cancel");

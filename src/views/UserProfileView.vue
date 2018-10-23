@@ -1,13 +1,13 @@
 <template>
   <div class="flex-grid">
     <div class="col-3 push-top">
-      <UserProfileEdit :user="authUser" v-if="edit" />
-      <UserProfileCard :user="authUser" v-else/>
+      <UserProfileEdit :user="user" v-if="edit" />
+      <UserProfileCard :user="user" v-else/>
     </div>
     <div class="col-7 push-top">
       <div class="profile-header">
         <span class="text-lead">
-          {{ authUser.username }}'s recent activity
+          {{ user.username }}'s recent activity
         </span>
         <a href="#">See only started threads?</a>
       </div>
@@ -32,15 +32,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["authUser"]),
     posts() {
-      if (this.authUser.posts) {
+      if (this.user.posts) {
         return Object.values(this.$store.state.posts).filter(post =>
-          Object.values(this.authUser.posts).includes(post[".key"])
+          Object.values(this.user.posts).includes(post[".key"])
         );
       }
       return [];
-    }
+    },
+    ...mapGetters({
+      user: "authUser"
+    })
   },
   components: {
     UserProfileCard,
