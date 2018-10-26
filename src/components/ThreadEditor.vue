@@ -17,38 +17,37 @@
 
 <script>
 export default {
-  name: 'ThreadEditor',
+  name: "ThreadEditor",
   props: {
     title: {
       type: String,
-      default: ''
+      default: ""
     },
     text: {
       type: String,
-      default: ''
+      default: ""
     }
   },
-  data () {
+  data() {
     return {
       form: {
         title: this.title,
         text: this.text
       }
-    }
+    };
   },
   computed: {
     isUpdate() {
-      return !!this.title
+      return !!this.title;
     }
   },
   methods: {
     save() {
-      this.$emit('save', {title: this.form.title, text: this.form.text})
+      this.$emit("save", { title: this.form.title, text: this.form.text });
     },
     cancel() {
-      this.$emit('cancel')
+      this.$emit("cancel");
     }
   }
-}
+};
 </script>
-

@@ -1,5 +1,5 @@
 <template>
-  <div class="thread">
+  <div v-if="thread && user" class="thread">
     <div>
       <p>
         <router-link :to="{name: 'ThreadShowView', params: {id: thread['.key']}}">
@@ -16,14 +16,14 @@
         {{repliesCount}} replies
       </p>
 
-      <!--<img class="avatar-medium" src="http://i0.kym-cdn.com/photos/images/facebook/000/010/934/46623-batman_pikachu_super.png" alt="">-->
+      <!-- <img class="avatar-medium" src="http://i0.kym-cdn.com/photos/images/facebook/000/010/934/46623-batman_pikachu_super.png" alt=""> -->
 
       <!--<div>-->
         <!--<p class="text-xsmall">-->
           <!--<a href="#">Bruce Wayne</a>-->
         <!--</p>-->
         <!--<p class="text-xsmall text-faded">2 hours ago</p>-->
-      <!--</div>-->
+      <!--</div> -->
     </div>
   </div>
 </template>
@@ -37,12 +37,12 @@ export default {
     }
   },
   computed: {
-    repliesCount () {
-      return this.$store.getters.threadRepliesCount(this.thread['.key'])
+    repliesCount() {
+      return this.$store.getters.threadRepliesCount(this.thread[".key"]);
     },
-    user () {
-      return this.$store.state.users[this.thread.userId]
+    user() {
+      return this.$store.state.users[this.thread.userId];
     }
   }
-}
+};
 </script>

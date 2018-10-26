@@ -1,5 +1,5 @@
 <template>
-  <header class="header" id="header">
+  <header v-if="user" class="header" id="header">
     <router-link
       :to="{name: 'Home'}"
       class="logo"
@@ -59,15 +59,14 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TheNavbar',
+  name: "TheNavbar",
   computed: {
     ...mapGetters({
-      user: 'authUser'
+      user: "authUser"
     })
   }
-}
+};
 </script>
-

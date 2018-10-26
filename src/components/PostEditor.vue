@@ -7,8 +7,7 @@
           cols="30"
           rows="10"
           class="form-input"
-          v-model="text"
-        ></textarea>
+          v-model="text"></textarea>
     </div>
     <div class="form-actions">
       <button @click="cancel" v-if="isUpdate" @click.prevent="cancel" class="btn btn-ghost">Cancel</button>
@@ -18,9 +17,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-  name: 'PostEditor',
-  
+  name: "PostEditor",
+
   props: {
     threadId: {
       required: false
@@ -29,67 +30,73 @@ export default {
     post: {
       type: Object,
       validator: obj => {
-        const isValidKey = typeof obj['.key'] === 'string'
-        const isValidText = typeof obj.text === 'string'
-        const valid = isValidKey && isValidKey
+        const isValidKey = typeof obj[".key"] === "string";
+        const isValidText = typeof obj.text === "string";
+        const valid = isValidKey && isValidKey;
 
         if (!isValidKey) {
-          console.error('😕 The post prop object must include a `[".key"]` property');
+          window.console.error(
+            '😕 The post prop object must include a `[".key"]` property'
+          );
         }
 
         if (!isValidText) {
-          console.error('😕 The post prop object must include a `text` property');
+          window.console.error(
+            "😕 The post prop object must include a `text` property"
+          );
         }
 
-        return valid
+        return valid;
       }
     }
   },
 
   data() {
     return {
-      text: this.post ? this.post.text : ''
+      text: this.post ? this.post.text : ""
     };
   },
 
   computed: {
     isUpdate() {
-      return !!this.post
+      return !!this.post;
     }
   },
 
   methods: {
+    ...mapActions(["createPost", "updatePost"]),
+
     save() {
-      this.persist().then(post => this.$emit("save", {post}))
+      this.persist().then(post => this.$emit("save", { post }));
+    },
+
+    persist() {
+      return this.isUpdate ? this.update() : this.create();
     },
 
     create() {
       const post = {
         text: this.text,
-        threadId: this.threadId,
+        threadId: this.threadId
       };
 
       this.text = "";
-      return this.$store.dispatch('createPost', post)
+      return this.createPost(post);
     },
 
     update() {
       const post = {
-        id: this.post['.key'],
+        id: this.post[".key"],
         text: this.text
-      }
-      
-      return this.$store.dispatch('updatePost', post)
-    },
+      };
 
-    persist() {
-      return this.isUpdate ? this.update() : this.create()
+      return this.updatePost(post);
     },
 
     cancel() {
-      this.$emit('cancel');
+      this.$emit("cancel");
     }
-  },
+  }
 };
 </script>
 

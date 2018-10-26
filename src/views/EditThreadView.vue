@@ -1,5 +1,5 @@
 <template>
-  <div class="col-full push-top">
+  <div v-if="thread && text" class="col-full push-top">
     <h1>Editing <i>{{ thread.title }}</i></h1>
     <ThreadEditor 
       :title="thread.title"
@@ -11,10 +11,11 @@
 </template>
 
 <script>
-import ThreadEditor from '@/components/ThreadEditor'
+import { mapActions } from "vuex";
+import ThreadEditor from "@/components/ThreadEditor";
 
 export default {
-  name: 'EditThreadView',
+  name: "EditThreadView",
   components: {
     ThreadEditor
   },
@@ -26,23 +27,29 @@ export default {
   },
   computed: {
     thread() {
-      return this.$store.getters.thread(this.id)
+      return this.$store.getters.thread(this.id);
     },
     text() {
-      return this.$store.state.posts[this.thread.firstPostId].text
+      const post = this.$store.state.posts[this.thread.firstPostId];
+      return post ? post.text : null;
     }
   },
   methods: {
-    save({title, text}) {
-      this.$store.dispatch('updateThread', {
-        title,
-        text,
-        id: this.id
-      }).then(this.$router.push({name: 'ThreadShowView', params: {id: this.id}}))
+    ...mapActions(["updateThread", "fetchThread", "fetchPost"]),
+
+    save({ title, text }) {
+      this.updateThread({ title, text, id: this.id }).then(
+        this.$router.push({ name: "ThreadShowView", params: { id: this.id } })
+      );
     },
     cancel() {
-      this.$router.push({name: 'ThreadShowView', params: {id: this.id}})
+      this.$router.push({ name: "ThreadShowView", params: { id: this.id } });
     }
+  },
+  created() {
+    this.fetchThread({ id: this.id }).then(thread =>
+      this.fetchPost({ id: thread.firstPostId })
+    );
   }
-}
+};
 </script>
