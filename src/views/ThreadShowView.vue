@@ -1,5 +1,5 @@
 <template>
-  <div v-if="thread && posts" class="col-large push-top">
+  <div v-if="asyncDataStatus_ready" class="col-large push-top">
     <h1>{{thread.title}}</h1>
     <router-link class="btn-green btn-small" :to="{name: 'EditThreadView', params: {id}}" tag="button">Edit Thread</router-link>
     <p>
@@ -15,7 +15,7 @@
 <script>
 import { mapActions } from "vuex";
 import { countObjProperties } from "@/utils/index";
-
+import asyncDataStatus from "@/mixins/asyncDataStatus";
 import PostList from "@/components/PostList";
 import PostEditor from "@/components/PostEditor";
 
@@ -33,6 +33,7 @@ export default {
       type: String
     }
   },
+  mixins: [asyncDataStatus],
   computed: {
     posts() {
       const postIds = Object.values(this.thread.posts);
@@ -56,13 +57,12 @@ export default {
   methods: {
     ...mapActions(["fetchThread", "fetchUser", "fetchPosts"])
   },
-  created() {
-    this.fetchThread({ id: this.id }).then(thread => {
-      this.fetchUser({ id: thread.userId });
-      this.fetchPosts({ ids: thread.posts }).then(posts =>
-        posts.forEach(post => this.fetchUser({ id: post.userId }))
-      );
-    });
+  created: async function() {
+    const thread = await this.fetchThread({ id: this.id });
+    await this.fetchUser({ id: thread.userId });
+    const posts = await this.fetchPosts({ ids: thread.posts });
+    await Promise.all(posts.map(post => this.fetchUser({ id: post.userId })));
+    this.asyncDataStatus_fetched();
   }
 };
 </script>

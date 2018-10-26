@@ -5,7 +5,7 @@
 </style>
 
 <template>
-  <div v-if="forum" class="forum-wrapper">
+  <div v-if="asyncDataStatus_ready" class="forum-wrapper">
     <div class="col-full push-top">
       <div class="forum-header">
         <div class="forum-details">
@@ -23,6 +23,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import asyncDataStatus from "@/mixins/asyncDataStatus";
 import ThreadList from "@/components/ThreadList";
 
 export default {
@@ -33,6 +34,7 @@ export default {
       type: String
     }
   },
+  mixins: [asyncDataStatus],
   computed: {
     forum() {
       return this.$store.state.forums[this.id];
@@ -49,12 +51,13 @@ export default {
   methods: {
     ...mapActions(["fetchForum", "fetchThreads", "fetchUser"])
   },
-  created() {
-    this.fetchForum({ id: this.id }).then(forum => {
-      this.fetchThreads({ ids: forum.threads }).then(threads => {
-        threads.forEach(thread => this.fetchUser({ id: thread.userId }));
-      });
-    });
+  created: async function() {
+    const forum = await this.fetchForum({ id: this.id });
+    const threads = await this.fetchThreads({ ids: forum.threads });
+    await Promise.all(
+      threads.map(thread => this.fetchUser({ id: thread.userId }))
+    );
+    this.asyncDataStatus_fetched();
   }
 };
 </script>
