@@ -2,7 +2,7 @@ import { countObjProperties } from "@/utils/index";
 
 export default {
   authUser(state) {
-    return state.users[state.authUser];
+    return state.authUser ? state.users[state.authUser] : null;
   },
   userPosts: state => userId =>
     Object.values(state.posts).filter(post => post.userId === userId),

@@ -8,6 +8,8 @@ import CategoryView from "@/views/CategoryView";
 import ProfileView from "@/views/ProfileView";
 import CreateThreadView from "@/views/CreateThreadView";
 import EditThreadView from "@/views/EditThreadView";
+import RegisterView from "@/views/RegisterView";
+import SignInView from "@/views/SignInView";
 
 Vue.use(Router);
 
@@ -60,6 +62,16 @@ export default new Router({
       props: {
         edit: true
       }
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: RegisterView
+    },
+    {
+      path: "/signin",
+      name: "SignIn",
+      component: SignInView
     },
     {
       path: "*",

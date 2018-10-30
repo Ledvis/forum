@@ -13,6 +13,10 @@ function makeAppendChildToParentMutation({ parent, child }) {
 }
 
 export default {
+  SET_AUTH_ID(state, id) {
+    state.authUser = id;
+  },
+
   SET_POST(state, { post, postId }) {
     Vue.set(state.posts, postId, post);
   },

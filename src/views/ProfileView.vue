@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
-import PostList from '@/components/PostList'
-import UserProfileCard from '@/components/UserProfileCard'
-import UserProfileCardEditor from '@/components/UserProfileCardEditor'
+import { mapGetters } from "vuex";
+import PostList from "@/components/PostList";
+import UserProfileCard from "@/components/UserProfileCard";
+import UserProfileCardEditor from "@/components/UserProfileCardEditor";
 
 export default {
-  name: 'ProfileView',
+  name: "ProfileView",
   props: {
     edit: {
       type: Boolean,
@@ -37,16 +37,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'authUser'
+      user: "authUser"
     }),
     userPostsCount() {
-      return this.$store.getters.userPostsCount(this.user['.key'])
+      return this.$store.getters.userPostsCount(this.user[".key"]);
     },
     userThreadsCount() {
-      return this.$store.getters.userThreadsCount(this.user['.key'])
+      return this.$store.getters.userThreadsCount(this.user[".key"]);
     },
     userPosts() {
-      return this.$store.getters.userPosts(this.user['.key'])
+      return this.$store.getters.userPosts(this.user[".key"]);
     }
   },
   components: {
@@ -54,6 +54,5 @@ export default {
     UserProfileCard,
     UserProfileCardEditor
   }
-}
+};
 </script>
-

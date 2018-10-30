@@ -28,21 +28,20 @@
 
 <script>
 export default {
-  name: 'UserProfileCard',
+  name: "UserProfileCard",
   props: {
     user: {
       required: true,
       type: Object
-    },
+    }
   },
   computed: {
     userPostsCount() {
-      return this.$store.getters.userPostsCount(this.user['.key'])
+      return this.$store.getters.userPostsCount(this.user[".key"]);
     },
     userThreadsCount() {
-      return this.$store.getters.userThreadsCount(this.user['.key'])
-    },
+      return this.$store.getters.userThreadsCount(this.user[".key"]);
+    }
   }
-}
+};
 </script>
-

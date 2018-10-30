@@ -416,7 +416,7 @@ figcaption {
   }
 }
 
-.post span {
+.post .post-date {
   flex-basis: 100%;
   font-size: 14px;
   text-align: right;
@@ -443,17 +443,13 @@ figcaption {
 
 .post-content {
   display: flex;
-  flex: 1 1 83%;
+  flex: 1 0 83%;
   padding-left: 15px;
   padding-right: 10px;
   font-size: 16px;
   text-align: justify;
   line-height: 1.5;
   word-break: break-word;
-}
-
-.post-content div:first-of-type {
-  width: 100%;
 }
 
 .post-content h1,
@@ -1096,6 +1092,9 @@ ul {
 
 .navbar {
   width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 .navbar ul {
@@ -1112,8 +1111,8 @@ ul {
   vertical-align: middle;
 }
 
-.navbar-item:last-child,
-.navbar-mobile-item:last-child {
+ul .navbar-item:last-child,
+ul .navbar-mobile-item:last-child {
   border-right: none;
 }
 
@@ -1183,7 +1182,9 @@ ul {
   .navbar-open ul {
     flex: 1;
     justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
+    padding-left: 20px;
   }
 }
 
@@ -2518,6 +2519,7 @@ figure {
   display: flex;
   margin: 0 auto;
   max-width: 1200px;
+  flex-grow: 1;
   flex-wrap: wrap;
 }
 
@@ -2639,7 +2641,7 @@ figure {
 .container {
   display: flex;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 30px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
