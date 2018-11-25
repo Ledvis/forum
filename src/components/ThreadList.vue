@@ -1,5 +1,5 @@
 <template>
-  <div class="col-full push-top">
+  <div v-if="threads" class="col-full push-top">
     <div class="thread-list">
       <h2 class="list-title">Threads</h2>
       <ThreadListItem

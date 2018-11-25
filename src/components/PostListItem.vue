@@ -1,6 +1,6 @@
 <template>
-  <div class="post">
-    <div class="user-info"><a href="#" class="user-name">{{ author.name }}</a><a href="#"><img :src="author.avatar" alt="" class="avatar-large"></a>
+  <div class="post" v-if="post && user">
+    <div class="user-info"><a href="#" class="user-name">{{ user.name }}</a><a href="#"><img :src="user.avatar" alt="" class="avatar-large"></a>
       <p class="desktop-only text-small">{{ userPostCount }} {{ userPostCount === 1 ? 'post' : 'posts'}}</p>
     </div>
     <div class="post-content">
@@ -16,8 +16,9 @@
       />
     </div>
     <BaseDate :timestamp="post.publishedAt"/>
-  </div>  
+  </div>
 </template>
+
 
 <script>
 import PostEditor from "./PostEditor";
@@ -36,11 +37,11 @@ export default {
     };
   },
   computed: {
-    author() {
+    user() {
       return this.$store.state.users[this.post.userId];
     },
     userPostCount() {
-      return this.$store.getters.userPostCount(this.author[".key"]);
+      return this.$store.getters.userPostCount(this.user[".key"]);
     }
   },
   components: {

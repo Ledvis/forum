@@ -1,5 +1,5 @@
 <template>
-  <div class="col-full push-top">
+  <div v-if="category" class="col-full push-top">
     <h1>{{ category.name }}</h1>
     <CategoryListItem :category="category"/>
   </div>
@@ -23,6 +23,10 @@ export default {
   },
   components: {
     CategoryListItem
+  },
+  async created() {
+    const category = await this.$store.dispatch('fetchCategory', this.id);
+    this.$store.dispatch('fetchForums', category.forums);
   }
 };
 </script>

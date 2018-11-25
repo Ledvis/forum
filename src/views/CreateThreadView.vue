@@ -1,7 +1,7 @@
 <template>
-  <div class="col-full push-top">
-    <h1>Create new thread in <i>Announcements</i></h1>
-    <ThreadEditor @save="save" @cancel="cancel"/>
+  <div v-if="forum" class="col-full push-top">
+    <h1>Create new thread in <i>{{ forum.name }}</i></h1>
+    <ThreadEditor @save="save" @cancel="cancel" />
   </div>
 </template>
 
@@ -17,20 +17,28 @@ export default {
       required: true
     }
   },
+  computed: {
+    forum () {
+      return this.$store.state.forums[this.id]
+    }
+  },
   components: {
     ThreadEditor
   },
   methods: {
     ...mapActions(["createThread"]),
 
-    save({ title, text }) {
+    save ({ title, text }) {
       this.createThread({ id: this.id, title, text }).then(id =>
         this.$router.push({ name: "ThreadView", params: { id } })
       );
     },
-    cancel() {
+    cancel () {
       this.$router.push({ name: "ForumView", id: this.id });
     }
+  },
+  created () {
+    this.$store.dispatch('fetchForum', this.id)
   }
 };
 </script>

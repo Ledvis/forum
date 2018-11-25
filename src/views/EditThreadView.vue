@@ -1,7 +1,7 @@
 <template>
-  <div class="col-full push-top">
+  <div v-if="thread" class="col-full push-top">
     <h1>Editing <i>{{ thread.title }}</i></h1>
-    <ThreadEditor :title="thread.title" :text="text" @save="save"/>
+    <ThreadEditor :title="thread.title" :text="text" @save="save" />
   </div>
 </template>
 
@@ -19,16 +19,17 @@ export default {
     }
   },
   computed: {
-    thread() {
+    thread () {
       return this.$store.state.threads[this.id];
     },
 
-    text() {
-      return this.$store.state.posts[this.thread.firstPostId].text;
+    text () {
+      const post = this.$store.state.posts[this.thread.firstPostId]; 
+      return post ? post.text : null;
     }
   },
   methods: {
-    save({ title, text }) {
+    save ({ title, text }) {
       this.$store
         .dispatch("updateThread", {
           threadId: this.thread[".key"],
@@ -39,6 +40,10 @@ export default {
           this.$router.push({ name: "ThreadView", params: { id: id } });
         });
     }
+  },
+  async created () {
+    const thread = await this.$store.dispatch('fetchThread', this.id);
+    this.$store.dispatch('fetchPost', thread.firstPostId)
   }
 };
 </script>

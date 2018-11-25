@@ -1,11 +1,5 @@
-<style scoped>
-.forum-wrapper {
-  width: 100%;
-}
-</style>
-
 <template>
-  <div class="forum-wrapper">
+  <div v-if="forum" class="forum-wrapper">
     <div class="col-full push-top">
       <div class="forum-header">
         <div class="forum-details">
@@ -15,7 +9,7 @@
         <router-link :to="{name: 'CreateThreadView', params: {id: id}}" class="btn-green btn-small">Start a thread</router-link>
       </div>
     </div>
-    <ThreadList :id="id"/>
+    <ThreadList :id="id" />
   </div>
 </template>
 
@@ -31,12 +25,22 @@ export default {
     }
   },
   computed: {
-    forum() {
+    forum () {
       return this.$store.state.forums[this.id];
     }
   },
   components: {
     ThreadList
+  },
+  async created() {
+    const forum = await this.$store.dispatch('fetchForum', this.id)
+    this.$store.dispatch('fetchThreads', forum.threads)
   }
 };
 </script>
+
+<style scoped>
+.forum-wrapper {
+  width: 100%;
+}
+</style>

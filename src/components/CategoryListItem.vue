@@ -1,5 +1,5 @@
 <template>
-  <div class="forum-list">
+  <div v-if="forums" class="forum-list">
     <h2 class="list-title">
       <router-link :to="{name: 'CategoryView', params: {id: category['.key']}}">{{ category.name }}</router-link>
     </h2>
