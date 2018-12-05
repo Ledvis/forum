@@ -1,11 +1,19 @@
 <template>
-  <div v-if="thread" class="col-full push-top">
+  <div
+    v-if="thread"
+    class="col-full push-top"
+  >
     <h1>Editing <i>{{ thread.title }}</i></h1>
-    <ThreadEditor :title="thread.title" :text="text" @save="save" />
+    <ThreadEditor
+      :title="thread.title"
+      :text="text"
+      @save="save"
+    />
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ThreadEditor from "@/components/ThreadEditor";
 
 export default {
@@ -24,11 +32,12 @@ export default {
     },
 
     text () {
-      const post = this.$store.state.posts[this.thread.firstPostId]; 
+      const post = this.$store.state.posts[this.thread.firstPostId];
       return post ? post.text : null;
     }
   },
   methods: {
+    ...mapActions(['fetchThread', 'fetchPost']),
     save ({ title, text }) {
       this.$store
         .dispatch("updateThread", {
@@ -42,8 +51,8 @@ export default {
     }
   },
   async created () {
-    const thread = await this.$store.dispatch('fetchThread', this.id);
-    this.$store.dispatch('fetchPost', thread.firstPostId)
+    const thread = await this.fetchThread(this.id);
+    this.fetchPost(thread.firstPostId)
   }
 };
 </script>

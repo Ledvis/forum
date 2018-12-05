@@ -1,11 +1,23 @@
 <template>
-  <div class="col-large push-top" v-if="thread">
+  <div
+    class="col-large push-top"
+    v-if="thread"
+  >
     <h1>{{ thread.title }}</h1>
-    <router-link :to="{name: 'EditThreadView', params: {threadId: thread.id}}" class="btn-green btn-small">Edit Thread</router-link>
+    <router-link
+      :to="{name: 'EditThreadView', params: {threadId: thread.id}}"
+      class="btn-green btn-small"
+    >Edit Thread</router-link>
     <p>
-      By <a href="#" class="link-unstyled">{{ user.name }}</a>,
+      By <a
+        href="#"
+        class="link-unstyled"
+      >{{ user.name }}</a>,
       <BaseDate :timestamp="thread.publishedAt" />.
-      <span class="hide-mobile text-faded text-small" style="float: right; margin-top: 2px;">{{ repliesCount }} {{ repliesCount === 1 ? 'reply' : 'replies' }} by {{ contributorsCount }} {{ contributorsCount === 1 ? 'contributor' : 'contributors' }}</span>
+      <span
+        class="hide-mobile text-faded text-small"
+        style="float: right; margin-top: 2px;"
+      >{{ repliesCount }} {{ repliesCount === 1 ? 'reply' : 'replies' }} by {{ contributorsCount }} {{ contributorsCount === 1 ? 'contributor' : 'contributors' }}</span>
     </p>
     <PostList :posts="posts" />
     <PostEditor :threadId="thread['.key']" />

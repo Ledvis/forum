@@ -26,7 +26,7 @@ export default {
     ThreadEditor
   },
   methods: {
-    ...mapActions(["createThread"]),
+    ...mapActions(['createThread', 'fetchForum']),
 
     save ({ title, text }) {
       this.createThread({ id: this.id, title, text }).then(id =>
@@ -38,7 +38,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('fetchForum', this.id)
+    this.fetchForum(this.id)
   }
 };
 </script>
