@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import ThreadEditor from "@/components/ThreadEditor";
+import { mapActions } from 'vuex'
+import ThreadEditor from '@/components/ThreadEditor'
 
 export default {
-  name: "CreateThreadView",
+  name: 'CreateThreadView',
   props: {
     id: {
       type: String,
@@ -18,7 +18,7 @@ export default {
     }
   },
   computed: {
-    forum () {
+    forum() {
       return this.$store.state.forums[this.id]
     }
   },
@@ -28,17 +28,20 @@ export default {
   methods: {
     ...mapActions(['createThread', 'fetchForum']),
 
-    save ({ title, text }) {
-      this.createThread({ id: this.id, title, text }).then(id =>
-        this.$router.push({ name: "ThreadView", params: { id } })
-      );
+    save({ title, text }) {
+      this.createThread({ forumId: this.id, title, text }).then(thread =>
+        this.$router.push({
+          name: 'ThreadView',
+          params: { id: thread['.key'] }
+        })
+      )
     },
-    cancel () {
-      this.$router.push({ name: "ForumView", id: this.id });
+    cancel() {
+      this.$router.push({ name: 'ForumView', id: this.id })
     }
   },
-  created () {
+  created() {
     this.fetchForum(this.id)
   }
-};
+}
 </script>

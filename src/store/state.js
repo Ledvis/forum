@@ -4,5 +4,5 @@ export default {
   threads: {},
   forums: {},
   categories: {},
-  authId: "ALXhxjwgY9PinwNGHpfai6OWyDu2"
+  authId: 'ALXhxjwgY9PinwNGHpfai6OWyDu2'
 }

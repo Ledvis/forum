@@ -1,9 +1,9 @@
 function countObjPropertiesLength(obj) {
-  if (typeof obj === "object") {
-    return Object.keys(obj).length;
+  if (typeof obj === 'object') {
+    return Object.keys(obj).length
   }
 
-  return 0;
+  return 0
 }
 
-export { countObjPropertiesLength };
+export { countObjPropertiesLength }

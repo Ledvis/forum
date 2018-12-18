@@ -38,6 +38,10 @@ export default {
     parent: 'forums',
     child: 'threads'
   }),
+  APPEND_CONTRIBUTORS_TO_THREAD: makeAppendChildToParentMutation({
+    parent: 'threads',
+    child: 'contributors'
+  }),
   APPEND_THREAD_TO_USER: makeAppendChildToParentMutation({
     parent: 'users',
     child: 'threads'

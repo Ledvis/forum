@@ -82,7 +82,12 @@ export default {
       return this.createPost(post)
     },
     update() {
-      return this.updatePost({ ...this.post, text: this.text })
+      const payload = {
+        id: this.post['.key'],
+        text: this.post
+      }
+
+      return this.updatePost(payload)
     },
     cancel() {
       this.$emit('cancel')

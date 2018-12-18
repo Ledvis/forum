@@ -9,17 +9,17 @@
 </template>
 
 <script>
-import CategoryListItem from "./CategoryListItem";
+import CategoryListItem from './CategoryListItem'
 
 export default {
-  name: "CategoryList",
+  name: 'CategoryList',
   computed: {
     categories() {
-      return Object.values(this.$store.state.categories);
+      return Object.values(this.$store.state.categories)
     }
   },
   components: {
     CategoryListItem
   }
-};
+}
 </script>

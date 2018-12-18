@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import { mapGetters } from "vuex";
-import PostList from "@/components/PostList";
-import PostEditor from "@/components/PostEditor";
-import { countObjPropertiesLength } from "@/utils/index";
+import { mapGetters } from 'vuex'
+import PostList from '@/components/PostList'
+import PostEditor from '@/components/PostEditor'
+import { countObjPropertiesLength } from '@/utils/index'
 
 export default {
-  name: "ThreadView",
+  name: 'ThreadView',
   props: {
     id: {
       type: String,
@@ -40,33 +39,33 @@ export default {
     }
   },
   computed: {
-    thread () {
-      return this.$store.state.threads[this.id];
+    thread() {
+      return this.$store.state.threads[this.id]
     },
-    posts () {
+    posts() {
       return Object.values(this.$store.state.posts).filter(post =>
-        Object.keys(this.thread.posts).includes(post[".key"])
-      );
+        Object.keys(this.thread.posts).includes(post['.key'])
+      )
     },
     ...mapGetters({
-      user: "authUser"
+      user: 'authUser'
     }),
-    repliesCount () {
-      return Object.keys(this.thread.posts).length - 1;
+    repliesCount() {
+      return Object.keys(this.thread.posts).length - 1
     },
-    contributorsCount () {
-      return countObjPropertiesLength(this.thread.contributors);
+    contributorsCount() {
+      return countObjPropertiesLength(this.thread.contributors)
     }
   },
   components: {
     PostList,
     PostEditor
   },
-  async created () {
-    const thread = await this.$store.dispatch("fetchThread", this.id);
-    await this.$store.dispatch("fetchUser", thread.userId);
-    const posts = await this.$store.dispatch("fetchPosts", thread.posts)
-    posts.forEach(post => this.$store.dispatch("fetchUser", post.userId))
+  async created() {
+    const thread = await this.$store.dispatch('fetchThread', this.id)
+    await this.$store.dispatch('fetchUser', thread.userId)
+    const posts = await this.$store.dispatch('fetchPosts', thread.posts)
+    posts.forEach(post => this.$store.dispatch('fetchUser', post.userId))
   }
-};
+}
 </script>

@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import ForumListItem from "./ForumListItem";
+import ForumListItem from './ForumListItem'
 
 export default {
-  name: "ForumList",
+  name: 'ForumList',
   props: {
     forums: {
       type: Array
@@ -20,5 +20,5 @@ export default {
   components: {
     ForumListItem
   }
-};
+}
 </script>

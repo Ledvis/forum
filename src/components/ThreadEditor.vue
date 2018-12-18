@@ -15,15 +15,15 @@
 
 <script>
 export default {
-  name: "ThreadEditor",
+  name: 'ThreadEditor',
   props: {
     title: {
       type: String,
-      default: ""
+      default: ''
     },
     text: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
@@ -32,16 +32,16 @@ export default {
         title: this.title,
         text: this.text
       }
-    };
+    }
   },
   methods: {
     save() {
-      this.$emit("save", { ...this.form });
+      this.$emit('save', { ...this.form })
     },
 
     cancel() {
-      this.$emit("cancel");
+      this.$emit('cancel')
     }
   }
-};
+}
 </script>

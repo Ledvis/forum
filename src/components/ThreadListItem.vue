@@ -1,5 +1,5 @@
 <template>
-  <div class="thread">
+  <div v-if="thread" class="thread">
     <div>
       <p>
         <router-link :to="{name: 'ThreadView', params: {id: thread['.key']}}">{{ thread.title }}</router-link>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "ThreadListItem",
+  name: 'ThreadListItem',
   props: {
     thread: {
       type: Object,
@@ -28,8 +28,8 @@ export default {
   },
   computed: {
     repliesCount() {
-      return this.$store.getters.repliesCount(this.thread[".key"]);
+      return this.$store.getters.repliesCount(this.thread['.key'])
     }
   }
-};
+}
 </script>

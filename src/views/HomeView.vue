@@ -6,23 +6,23 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import CategoryList from "@/components/CategoryList.vue";
+import { mapActions } from 'vuex'
+import CategoryList from '@/components/CategoryList.vue'
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     CategoryList
   },
   methods: {
     ...mapActions(['fetchAllCategories', 'fetchForums'])
   },
-  async created () {
-    const categoriesArr = await this.fetchAllCategories();
-    
+  async created() {
+    const categoriesArr = await this.fetchAllCategories()
+
     categoriesArr.forEach(category => {
-      this.fetchForums(category.forums);
+      this.fetchForums(category.forums)
     })
   }
-};
+}
 </script>

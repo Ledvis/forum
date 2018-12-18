@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import ForumList from "./ForumList";
+import ForumList from './ForumList'
 
 export default {
-  name: "CategoryListItem",
+  name: 'CategoryListItem',
   props: {
     category: {
       type: Object,
@@ -20,11 +20,11 @@ export default {
   },
   computed: {
     forums() {
-      return this.$store.getters.forums(this.category[".key"]);
+      return this.$store.getters.forums(this.category['.key'])
     }
   },
   components: {
     ForumList
   }
-};
+}
 </script>

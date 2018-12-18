@@ -8,6 +8,10 @@
     "plugin:prettier/recommended",
     "@vue/prettier"
   ],
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
   "rules": {
     "no-debugger": 0
   }

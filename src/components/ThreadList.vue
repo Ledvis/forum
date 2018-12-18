@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import ThreadListItem from "./ThreadListItem";
+import ThreadListItem from './ThreadListItem'
 
 export default {
-  name: "ThreadList",
+  name: 'ThreadList',
   props: {
     id: {
       type: String,
@@ -29,8 +29,8 @@ export default {
     threads() {
       return Object.values(this.$store.state.threads).filter(
         thread => thread.forumId === this.id
-      );
+      )
     }
   }
-};
+}
 </script>
