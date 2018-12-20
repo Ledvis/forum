@@ -84,7 +84,7 @@ export default {
     update() {
       const payload = {
         id: this.post['.key'],
-        text: this.post
+        text: this.text
       }
 
       return this.updatePost(payload)

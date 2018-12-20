@@ -37,17 +37,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchThread', 'fetchPost']),
+    ...mapActions(['fetchThread', 'fetchPost', 'updateThread']),
+
     save({ title, text }) {
-      this.$store
-        .dispatch('updateThread', {
-          threadId: this.thread['.key'],
-          title,
-          text
-        })
-        .then(id => {
-          this.$router.push({ name: 'ThreadView', params: { id: id } })
-        })
+      this.updateThread({
+        threadId: this.id,
+        title,
+        text
+      }).then(() => {
+        this.$router.push({ name: 'ThreadView', params: { id: this.id } })
+      })
     }
   },
   async created() {

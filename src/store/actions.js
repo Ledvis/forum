@@ -168,36 +168,46 @@ export default {
   },
 
   updateThread({ commit, state }, { threadId, title, text }) {
-    const thread = state.threads[threadId]
-    const post = state.posts[thread.firstPostId]
+    return new Promise(resolve => {
+      const thread = state.threads[threadId]
+      const post = state.posts[thread.firstPostId]
 
-    const edited = {
-      at: Math.floor(Date.now() / 1000),
-      by: state.authId
-    }
-
-    const updates = {}
-
-    updates[`/posts/${thread.firstPostId}/text`] = text
-    updates[`/posts/${thread.firstPostId}/edited`] = edited
-
-    commit('SET_THREAD', {
-      threadId,
-      thread: {
-        ...thread,
-        title
+      const edited = {
+        at: Math.floor(Date.now() / 1000),
+        by: state.authId
       }
-    })
 
-    commit('SET_POST', {
-      postId: post['.key'],
-      post: {
-        ...post,
-        text
-      }
-    })
+      const updates = {}
 
-    return Promise.resolve(threadId)
+      updates[`posts/${thread.firstPostId}/text`] = text
+      updates[`posts/${thread.firstPostId}/edited`] = edited
+      updates[`threads/${threadId}/title`] = title
+
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          commit('SET_THREAD', {
+            threadId,
+            thread: {
+              ...thread,
+              title
+            }
+          })
+
+          commit('SET_POST', {
+            postId: thread.firstPostId,
+            post: {
+              ...post,
+              text,
+              edited
+            }
+          })
+
+          return resolve(threadId)
+        })
+    })
   },
 
   fetchThread: ({ dispatch }, id) => {
