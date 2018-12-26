@@ -7,6 +7,7 @@ import ThreadView from '@/views/ThreadView'
 import UserProfileView from '@/views/UserProfileView'
 import CreateThreadView from '@/views/CreateThreadView'
 import EditThreadView from '@/views/EditThreadView'
+import NotFoundView from '@/views/NotFoundView'
 
 Vue.use(Router)
 
@@ -61,6 +62,11 @@ export default new Router({
       props: {
         edit: true
       }
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFoundView
     }
   ]
 })

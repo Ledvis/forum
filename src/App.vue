@@ -6,7 +6,8 @@
   <div id="app">
     <TheNavbar/>
     <div class="container">
-      <router-view></router-view>
+      <router-view v-show="showPage" @ready="showPage = true"></router-view>
+      <div v-show="!showPage">loading...</div>
     </div>
   </div>
 </template>
@@ -15,8 +16,19 @@
 import TheNavbar from '@/components/TheNavbar'
 
 export default {
+  data() {
+    return {
+      showPage: false
+    }
+  },
   components: {
     TheNavbar
+  },
+  created() {
+    this.$router.beforeEach((to, from, next) => {
+      this.showPage = false
+      next()
+    })
   }
 }
 </script>
