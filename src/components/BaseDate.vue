@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import moment from "moment";
+import moment from 'moment'
 
 export default {
-  name: "BaseDate",
+  name: 'BaseDate',
   props: {
     timestamp: {
       type: Number,
@@ -15,11 +15,11 @@ export default {
   },
   filters: {
     humanFriendlyDate(date) {
-      return moment.unix(date).format("MMMM Do YYYY, h:mm:ss a");
+      return moment.unix(date).format('MMMM Do YYYY, h:mm:ss a')
     },
     diffFromNow(date) {
-      return moment.unix(date).fromNow();
+      return moment.unix(date).fromNow()
     }
   }
-};
+}
 </script>

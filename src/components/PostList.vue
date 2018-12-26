@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import PostListItem from "./PostListItem";
+import PostListItem from './PostListItem'
 
 export default {
-  name: "PostList",
+  name: 'PostList',
   props: {
     posts: {
       type: Array,
@@ -21,5 +21,5 @@ export default {
   components: {
     PostListItem
   }
-};
+}
 </script>

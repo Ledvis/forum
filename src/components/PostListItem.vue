@@ -21,10 +21,10 @@
 
 
 <script>
-import PostEditor from "./PostEditor";
+import PostEditor from './PostEditor'
 
 export default {
-  name: "PostListItem",
+  name: 'PostListItem',
   props: {
     post: {
       type: Object,
@@ -34,18 +34,18 @@ export default {
   data() {
     return {
       editing: false
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.users[this.post.userId];
+      return this.$store.state.users[this.post.userId]
     },
     userPostCount() {
-      return this.$store.getters.userPostCount(this.user[".key"]);
+      return this.$store.getters.userPostCount(this.user['.key'])
     }
   },
   components: {
     PostEditor
   }
-};
+}
 </script>
