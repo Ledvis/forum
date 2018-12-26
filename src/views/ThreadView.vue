@@ -1,7 +1,7 @@
 <template>
   <div
     class="col-large push-top"
-    v-if="thread"
+    v-if="asyncDataStatus_ready"
   >
     <h1>{{ thread.title }}</h1>
     <router-link
@@ -25,10 +25,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import PostList from '@/components/PostList'
 import PostEditor from '@/components/PostEditor'
 import { countObjPropertiesLength } from '@/utils/index'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 
 export default {
   name: 'ThreadView',
@@ -38,6 +39,7 @@ export default {
       required: true
     }
   },
+  mixins: [asyncDataStatus],
   computed: {
     thread() {
       return this.$store.state.threads[this.id]
@@ -61,11 +63,15 @@ export default {
     PostList,
     PostEditor
   },
+  methods: {
+    ...mapActions(['fetchThread', 'fetchUser', 'fetchPosts'])
+  },
   async created() {
-    const thread = await this.$store.dispatch('fetchThread', this.id)
-    await this.$store.dispatch('fetchUser', thread.userId)
-    const posts = await this.$store.dispatch('fetchPosts', thread.posts)
-    posts.forEach(post => this.$store.dispatch('fetchUser', post.userId))
+    const thread = await this.fetchThread(this.id)
+    await this.fetchUser(thread.userId)
+    const posts = await this.fetchPosts(thread.posts)
+    await Promise.all(posts.map(post => this.fetchUser(post.userId)))
+    this.asyncDataStatus_fetched()
   }
 }
 </script>

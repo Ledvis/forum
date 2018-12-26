@@ -320,6 +320,7 @@ export default {
 
   fetchItems({ dispatch }, { ids, resource, emoji }) {
     ids = isArray(ids) ? ids : Object.keys(ids)
+
     return Promise.all(
       ids.map(id =>
         dispatch('fetchItem', {

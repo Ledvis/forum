@@ -1,16 +1,20 @@
 <template>
-  <div v-if="category" class="col-full push-top">
+  <div
+    v-if="asyncDataStatus_ready" 
+    class="col-full push-top"
+  >
     <h1>{{ category.name }}</h1>
-    <CategoryListItem :category="category"/>
+    <CategoryListItem :category="category" />
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import CategoryListItem from "@/components/CategoryListItem";
+import { mapActions } from 'vuex'
+import CategoryListItem from '@/components/CategoryListItem'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 
 export default {
-  name: "CategoryView",
+  name: 'CategoryView',
   props: {
     id: {
       type: String,
@@ -19,9 +23,10 @@ export default {
   },
   computed: {
     category() {
-      return this.$store.state.categories[this.id];
+      return this.$store.state.categories[this.id]
     }
   },
+  mixins: [asyncDataStatus],
   methods: {
     ...mapActions(['fetchCategory', 'fetchForums'])
   },
@@ -29,8 +34,9 @@ export default {
     CategoryListItem
   },
   async created() {
-    const category = await this.fetchCategory(this.id);
-    this.fetchForums(category.forums);
+    const category = await this.fetchCategory(this.id)
+    await this.fetchForums(category.forums)
+    this.asyncDataStatus_fetched()
   }
-};
+}
 </script>

@@ -1,5 +1,5 @@
 <style>
-@import url("./assets/css/style.css");
+@import url('./assets/css/style.css');
 </style>
 
 <template>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import TheNavbar from "@/components/TheNavbar";
+import TheNavbar from '@/components/TheNavbar'
 
 export default {
   components: {
     TheNavbar
   }
-};
+}
 </script>
