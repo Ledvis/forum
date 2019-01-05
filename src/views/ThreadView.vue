@@ -20,7 +20,11 @@
       >{{ repliesCount }} {{ repliesCount === 1 ? 'reply' : 'replies' }} by {{ contributorsCount }} {{ contributorsCount === 1 ? 'contributor' : 'contributors' }}</span>
     </p>
     <PostList :posts="posts" />
-    <PostEditor :threadId="thread['.key']" />
+    <PostEditor v-if="authUser" :threadId="thread['.key']" />
+    <div v-else class="text-center" style="margin-bottom: 50px;">
+      <router-link :to="{name: 'SignIn', query: {redirectTo: $route.path}}">Sign in</router-link> or
+      <router-link :to="{name: 'Register', query: {redirectTo: $route.path}}">Register</router-link> to post a reply.
+    </div>
   </div>
 </template>
 
@@ -50,8 +54,11 @@ export default {
       )
     },
     ...mapGetters({
-      user: 'authUser'
+      authUser: 'authUser'
     }),
+    user() {
+      return this.$store.state.users[this.thread.userId]
+    },
     repliesCount() {
       return Object.keys(this.thread.posts).length - 1
     },

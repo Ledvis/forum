@@ -22,6 +22,9 @@ export default {
   SET_THREAD(state, { threadId, thread }) {
     Vue.set(state.threads, threadId, thread)
   },
+  SET_AUTH_ID(state, id) {
+    state.authId = id
+  },
   SET_ITEM(state, { item, resource, id }) {
     item['.key'] = id
     Vue.set(state[resource], id, item)
@@ -45,5 +48,8 @@ export default {
   APPEND_THREAD_TO_USER: makeAppendChildToParentMutation({
     parent: 'users',
     child: 'threads'
-  })
+  }),
+  SET_UNSUBSCRIBE_AUTH_OBSERVER(state, unsubscribe) {
+    state.unsubscribeAuthObserver = unsubscribe
+  }
 }

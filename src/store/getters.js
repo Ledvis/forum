@@ -1,4 +1,4 @@
-import { countObjPropertiesLength } from "@/utils/index";
+import { countObjPropertiesLength } from '@/utils/index'
 
 export default {
   forums: state => id =>
@@ -6,10 +6,16 @@ export default {
   repliesCount: state => id =>
     Object.values(state.threads[id].posts).length - 1,
   authUser: state => {
-    return state.users[state.authId];
+    return state.authId ? state.users[state.authId] : null
   },
-  userPostCount: state => id =>
-    countObjPropertiesLength(state.users[id].posts),
+  userPosts: state => id => {
+    const user = state.users[id]
+    if (user.posts) {
+      return Object.values(state.posts).filter(post => post.userId === id)
+    }
+    return []
+  },
+  userPostCount: state => id => countObjPropertiesLength(state.users[id].posts),
   userThreadCount: state => id =>
     countObjPropertiesLength(state.users[id].threads)
 }

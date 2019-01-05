@@ -143,7 +143,7 @@ export default {
             childId: threadId
           })
           commit('APPEND_THREAD_TO_USER', {
-            parentId: state.authId,
+            parentId: userId,
             childId: threadId
           })
 
@@ -206,6 +206,136 @@ export default {
           })
 
           return resolve(threadId)
+        })
+    })
+  },
+
+  initAuthentication({ dispatch, commit, state }) {
+    return new Promise(resolve => {
+      if (state.unsubscribeAuthObserver) {
+        state.unsubscribeAuthObserver()
+      }
+
+      const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        window.console.log('👣 the user has changed')
+
+        if (user) {
+          dispatch('fetchAuthUser').then(dbUser => resolve(dbUser))
+        } else {
+          resolve(null)
+        }
+      })
+
+      commit('SET_UNSUBSCRIBE_AUTH_OBSERVER', unsubscribe)
+    })
+  },
+
+  fetchAuthUser({ dispatch, commit }) {
+    const userId = firebase.auth().currentUser.uid
+
+    return new Promise(resolve => {
+      firebase
+        .database()
+        .ref('users')
+        .child(userId)
+        .once('value', snapshot => {
+          if (snapshot.exists()) {
+            return dispatch('fetchUser', userId).then(user => {
+              commit('SET_AUTH_ID', userId)
+              resolve(user)
+            })
+          } else {
+            resolve(null)
+          }
+        })
+    })
+  },
+
+  registerUserWithEmailAndPassword(
+    { dispatch },
+    { name, username, email, password, avatar = null }
+  ) {
+    return firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        return dispatch('createUser', {
+          id: user.uid,
+          email,
+          name,
+          username,
+          password,
+          avatar
+        })
+      })
+      .then(() => dispatch('fetchAuthUser'))
+  },
+
+  signInWithEmailAndPassword(context, { email, password }) {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+  },
+
+  signOut({ commit }) {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        commit('SET_AUTH_ID', null)
+      })
+  },
+
+  signInWithGoogle({ dispatch }) {
+    const provider = new firebase.auth.GoogleAuthProvider()
+
+    return firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(data => {
+        const user = data.user
+        firebase
+          .database()
+          .ref('users')
+          .child(user.uid)
+          .once('value', snapshot => {
+            if (!snapshot.exists()) {
+              return dispatch('createUser', {
+                id: user.uid,
+                name: user.displayName,
+                email: user.email,
+                username: user.email,
+                avatar: user.photoURL
+              }).then(() => dispatch('fetchAuthUser'))
+            }
+          })
+      })
+  },
+
+  createUser({ state, commit }, { id, name, username, email, avatar }) {
+    return new Promise(resolve => {
+      const registeredAt = Math.floor(Date.now() / 1000)
+      const usernameLower = username.toLowerCase()
+      email = email.toLowerCase()
+      const user = {
+        registeredAt,
+        name,
+        username,
+        usernameLower,
+        email,
+        avatar
+      }
+
+      firebase
+        .database()
+        .ref('users')
+        .child(id)
+        .set(user)
+        .then(() => {
+          commit('SET_ITEM', {
+            resource: 'users',
+            id,
+            item: user
+          })
+          resolve(state.users[id])
         })
     })
   },

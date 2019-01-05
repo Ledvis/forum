@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
 export default {
-  name: "UserProfileEdit",
+  name: 'UserProfileEdit',
   data() {
     return {
       activeUser: { ...this.user }
-    };
+    }
   },
   props: {
     user: {
@@ -53,22 +53,22 @@ export default {
   },
   computed: {
     userPostCount() {
-      return this.$store.getters.userPostCount(this.user[".key"]);
+      return this.$store.getters.userPostCount(this.user['.key'])
     },
     userThreadCount() {
-      return this.$store.getters.userThreadCount(this.user[".key"]);
+      return this.$store.getters.userThreadCount(this.user['.key'])
     }
   },
   methods: {
-    ...mapActions(["updateUser"]),
+    ...mapActions(['updateUser']),
 
     save() {
-      this.updateUser(this.activeUser);
-      this.$router.push({ name: "UserProfileView" });
+      this.updateUser(this.activeUser)
+      this.$router.push({ name: 'UserProfileView' })
     },
     cancel() {
-      this.$router.push({ name: "UserProfileView" });
+      this.$router.push({ name: 'UserProfileView' })
     }
   }
-};
+}
 </script>

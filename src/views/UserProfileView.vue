@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-grid">
+  <div v-if="asyncDataStatus_ready" class="flex-grid">
     <div class="col-3 push-top">
       <UserProfileEdit :user="user" v-if="edit" />
       <UserProfileCard :user="user" v-else/>
@@ -12,42 +12,44 @@
         <a href="#">See only started threads?</a>
       </div>
       <hr>
-      <PostList :posts="posts"/>
+      <PostList :posts="posts(user['.key'])"/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import UserProfileCard from "@/components/UserProfileCard";
-import UserProfileEdit from "@/components/UserProfileEdit";
-import PostList from "@/components/PostList";
+import { mapGetters, mapActions } from 'vuex'
+import UserProfileCard from '@/components/UserProfileCard'
+import UserProfileEdit from '@/components/UserProfileEdit'
+import PostList from '@/components/PostList'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 
 export default {
-  name: "UserProfileView",
+  name: 'UserProfileView',
   props: {
     edit: {
       type: Boolean,
       default: false
     }
   },
+  mixins: [asyncDataStatus],
   computed: {
-    posts() {
-      if (this.user.posts) {
-        return Object.values(this.$store.state.posts).filter(post =>
-          Object.values(this.user.posts).includes(post[".key"])
-        );
-      }
-      return [];
-    },
     ...mapGetters({
-      user: "authUser"
+      user: 'authUser',
+      posts: 'userPosts'
     })
   },
   components: {
     UserProfileCard,
     UserProfileEdit,
     PostList
+  },
+  methods: {
+    ...mapActions(['fetchPosts'])
+  },
+  async created() {
+    await this.fetchPosts(this.user.posts)
+    this.asyncDataStatus_fetched()
   }
-};
+}
 </script>

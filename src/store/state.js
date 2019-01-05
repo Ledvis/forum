@@ -4,5 +4,6 @@ export default {
   threads: {},
   forums: {},
   categories: {},
-  authId: 'ALXhxjwgY9PinwNGHpfai6OWyDu2'
+  authId: null,
+  unsubscribeAuthObserver: null
 }
